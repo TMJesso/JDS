@@ -1,0 +1,57 @@
+/*
+Primary: 		#009900;
+Secondary: 		#ffff66;
+Alert: 			#ff0000;
+Success: 		#00ff00;
+Warning: 		#ff3300;
+Body Font: 		#0d0d0d;
+Header Font: 	#00e64d
+
+XY Grid
+12 columns
+No Prototype Helpers
+All other components [x]
+
+*/
+
+.italic {
+	font-style: italic; }
+	
+italic {
+	font-style: italic; 
+}
+
+
+.foundation-5-top-bar {
+  background: #333;
+  color: #fefefe;
+}
+
+.foundation-5-top-bar .menu {
+  background: #333;
+}
+
+.foundation-5-top-bar .menu a {
+  color: #fefefe;
+}
+
+.foundation-5-top-bar .is-dropdown-submenu {
+  border: 0;
+}
+
+.foundation-5-top-bar .is-dropdown-submenu-item.opens-right a::after {
+  border-color: transparent transparent transparent #fefefe;
+}
+
+.foundation-5-top-bar .js-drilldown-back > a::before {
+  border-color: transparent #fefefe transparent transparent;
+}
+
+.foundation-5-top-bar .is-drilldown-submenu-parent > a::after {
+  border-color: transparent transparent transparent #fefefe;
+}
+
+.foundation-5-top-bar .dropdown.menu.medium-horizontal > li.is-dropdown-submenu-parent > a::after {
+  border-color: #fefefe transparent transparent;
+}
+
