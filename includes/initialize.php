@@ -1,8 +1,10 @@
 <?php
+get_constants();
+
 $errors = array();
 defined('DS') ? null : define('DS', DIRECTORY_SEPARATOR);
-defined('SITE_ROOT') ? null : define('SITE_ROOT', $_SERVER["DOCUMENT_ROOT"] . DS . 'JCS');
-defined('SITE_HTTP') ? null : define('SITE_HTTP', DS . 'JCS' . DS);
+defined('SITE_ROOT') ? null : define('SITE_ROOT', $_SERVER["DOCUMENT_ROOT"] . DS . CO_ABBR);
+defined('SITE_HTTP') ? null : define('SITE_HTTP', DS . CO_ABBR . DS);
 
 defined('LIB_PATH')         ? null : define('LIB_PATH', SITE_ROOT . DS . 'includes' . DS);
 defined('PUBLIC_PATH')      ? null : define('PUBLIC_PATH', SITE_HTTP . 'public' . DS);
@@ -39,5 +41,21 @@ require_once LIB_PATH . 'station.php';
 require_once LIB_PATH . 'stops.php';
 // require_once LIB_PATH . 'log.php';
 require_once LIB_PATH . 'session.php';
+
+
+
+
+
+
+
+function get_constants() {
+	defined('CO_NAME') 		? null : define('CO_NAME', 'Jessop Digital Services');
+	defined('CO_ABBR') 		? null : define('CO_ABBR', 'JDS');
+	defined('CO_HOST') 		? null : define('CO_HOST', 'mail');
+	defined('CO_ADDR') 		? null : define('CO_ADDR', 'jessopdigitalservices');
+	defined('CO_SUFF') 		? null : define('CO_SUFF', 'com');
+	defined('CO_ICO') 		? null : define('CO_ICO', 'JCSlogo1.ico');
+	defined('CO_GIF') 		? null : define('CO_GIF', 'JDSLogo.jpg');
+}
 
 ?>

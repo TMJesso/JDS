@@ -7,10 +7,12 @@ if (! $session->is_logged_in()) {
 $load = true;
 $loadin = true;
 $loadout = true;
+// info beginning 
 if (isset($_POST["submit_type"]) || (isset($_GET["tid"]) && ! isset($_POST["submit_menu"]) && ! isset($_POST["submit_addmenu"]) && ! isset($_POST["submit_delete"]))) {
 	$load = false;
 	$loadin = true;
 	$loadout = true;
+	$type_id = "";
 	if (isset($_POST["submit_type"])) {
 		$type_id = $_POST["select_menu_type"];
 		$current_type = Menu_type::get_all_type_by_order();
@@ -30,7 +32,7 @@ if (isset($_POST["submit_type"]) || (isset($_GET["tid"]) && ! isset($_POST["subm
 		$type_id = $base->prevent_injection(hent($_GET["tid"]));
 	}
 	$menus = Menu::get_all_menus_by_type_id($type_id);
-} elseif (isset($_POST["submit_menu"])) {
+} elseif (isset($_POST["submit_menu"])) { // info submit_menu
 	$load = false;
 	$loadin = false;
 	$loadout = true;
@@ -47,7 +49,7 @@ if (isset($_POST["submit_type"]) || (isset($_GET["tid"]) && ! isset($_POST["subm
 		$this_menu = Menu::get_menu_by_m_id($menu_id);
 	}
 	$menus = Menu::get_all_menus_by_type_id($type_id);
-} elseif (isset($_POST["submit_addmenu"])) {
+} elseif (isset($_POST["submit_addmenu"])) { // info submit_addmenu 
 	// user clicked 'Go' to save it
 	$type_id = $base->prevent_injection(hent(ucode($_GET["tid"])));
 	$menu_id = $base->prevent_injection(hent(ucode($_GET["mid"])));
@@ -65,17 +67,15 @@ if (isset($_POST["submit_type"]) || (isset($_GET["tid"]) && ! isset($_POST["subm
 	$this_menu->visible = $_POST["select_visible"];
 	$this_menu->security = $_POST["select_security"];
 	$this_menu->clearance = $_POST["select_clearance"];
-	if ($this_menu->save()) {
-		$message = hdent($this_menu->name) . " was successfully saved!";
-		$session->message($message);
-	} else {
-		$errors = array(
-			"{$this_menu->name} could NOT be saved!"
-		);
-		$session->errors($errors);
+	if ($this_results = $this_menu->save()) {
+		if (is_array($this_results)) {
+			$session->errors($this_results);
+		} else {
+			$session->message(hdent($this_menu->name).$this_results);
+		}
 	}
 	redirect_to("add_menu.php");
-} elseif (isset($_POST["submit_delete"])) {
+} elseif (isset($_POST["submit_delete"])) { // info submit_delete
 	// delete menu item
 	// echo $_GET["tid"] . " :: " . $_GET["mid"];
 	$load = true;
@@ -102,7 +102,7 @@ if (isset($_POST["submit_type"]) || (isset($_GET["tid"]) && ! isset($_POST["subm
 		}
 		redirect_to('add_menu.php');
 	}
-} elseif (isset($_POST["button_submit_new_type"])) {
+} elseif (isset($_POST["button_submit_new_type"])) { // info button_submit_new_type
 	// add new menu
 	if ($_POST["hidden_type_id"] == "new") {
 		$mymenu_type = new Menu_Type();
@@ -115,17 +115,15 @@ if (isset($_POST["submit_type"]) || (isset($_GET["tid"]) && ! isset($_POST["subm
 	$mymenu_type->m_type = $base->prevent_injection(hent($_POST["txt_m_type"]));
 	$mymenu_type->security = $_POST['select_type_security'];
 	$mymenu_type->clearance = $_POST['select_type_clearance'];
-	if ($mymenu_type->save()) {
-		$session->message('New Menu ' . $mymenu_type->m_type . ' has been ' . ($_POST["hidden_type_id"] == 'new' ? 'added' : 'updated'));
-		redirect_to('add_menu.php');
-	} else {
-		$errors = array(
-			"Add Menu_Type" => "I was NOT able to add " . $mymenu_type->m_type . " at this time."
-		);
-		$session->errors($errors);
+	if ($this_results = $mymenu_type->save()) {
+		if (is_array($this_results)) {
+			$session->errors($this_results);
+		} else {
+			$session->message("New Mnue " . $mymenu_type->m_type . " has been " . ($_POST["hidden_type_id"] == "new" ? "added":"updated"));
+		}
 		redirect_to('add_menu.php');
 	}
-} elseif (isset($_POST["submit_type_delete"])) {
+} elseif (isset($_POST["submit_type_delete"])) { // info submit_type_delete
 	$load = true;
 	$loadin = true;
 	$loadout = true;
@@ -149,31 +147,31 @@ if (isset($_POST["submit_type"]) || (isset($_GET["tid"]) && ! isset($_POST["subm
 	}
 	$session->message($message);
 	redirect_to('add_menu.php');
-} else {
+	
+} else { // info END 
 	// no other option was true
-	//
 
 	$type_menu = Menu_Type::get_all_type_by_order();
 }
 ?>
 
 <?php include_layout_template('jcs_header.php'); ?>
-<?php show_title("Add / Edit Menu"); ?>
-<?php if ($load && $loadin && $loadout) {  // tt choose menu type to add menu to?>
+<?php show_title("Add / Edit Menu"); // info choose logic ?>
+<?php if ($load && $loadin && $loadout) {  // ttt choose menu type to add menu to ?>
 	<?php show_menu_type($type_menu); ?>
-<?php } elseif (!$load && !$loadin && $loadout) { // ff edit or add menu?>
+<?php } elseif (!$load && !$loadin && $loadout) { // fft edit or add menu?>
 	<?php addedit($type_id, $menu_id, $this_menu, $menus); ?>
-<?php } elseif (!$load && $loadin && $loadout) { // ft choose menu to edit or add new ?>
+<?php } elseif (!$load && $loadin && $loadout) { // ftt choose menu to edit or add new ?>
 	<?php choose_menu_add_edit($type_id, $menus); ?>
-<?php } elseif ($load && !$loadin && $loadout) { // tf add new menu type  ?>
+<?php } elseif ($load && !$loadin && $loadout) { // tft add new menu type  ?>
 	<?php add_new_menu_type($mymenu_type, $current_type); ?>
-<?php } elseif ($load && !$loadin && !$loadout) { ?>
+<?php } elseif ($load && !$loadin && !$loadout) { // tff edit menu type  ?>
 	<?php add_new_menu_type($mymenu_type, $current_type); ?>
 <?php } ?>
 <?php include_layout_template('jcs_footer.php'); ?>
 
 
-<?php function show_menu_type($type_menu) { ?>
+<?php function show_menu_type($type_menu) { // info show_menu_type ?>
 <div class="grid-container">
 	<div class="grid-x grid-padding-x">
 		<div class="large-3 medium-3 cell">&nbsp;</div>
@@ -210,7 +208,7 @@ if (isset($_POST["submit_type"]) || (isset($_GET["tid"]) && ! isset($_POST["subm
 }
 
 function addedit($type_id, $menu_id, $this_menu, $menus)
-{
+{ // info addedit
 	?>
 <div class="grid-container">
 	<div class="grid-x grid-padding-x">
@@ -227,7 +225,7 @@ function addedit($type_id, $menu_id, $this_menu, $menus)
 				</div>
 				<!-- Name -->
 				<label for="txt_name">Name <input type="text" name="txt_name"
-					id="txt_name" value="<?php echo $this_menu->name; ?>"
+					id="txt_name" value="<?php echo hdent($this_menu->name); ?>"
 					maxlength="20" placeholder="Maximum characters of 20" required> <span
 					class="form-error"> You must enter the Name of this menu item </span>
 				</label>
@@ -251,15 +249,15 @@ function addedit($type_id, $menu_id, $this_menu, $menus)
 					id="select_order" required>
 						<option value="">Choose the order for this menu item</option>
 						<?php for ($x = 0; $x <= 25; $x++) { ?>
-    						<?php $msg = "{$x}. "; ?>
+    						<?php $msg = "{$x}. "; $msge = ""; ?>
 						<option value="<?php echo $x; ?>"
 							<?php if ($this_menu->m_order == $x) { ?> selected <?php } ?>>
 							<?php foreach ($menus as $men) { ?>
     							<?php if ($men->m_order == $x) { ?>
-    								<?php $msg .= "used by " . hdent($men->name); ?>
+    								<?php $msge = "used by " . hdent($men->name); ?>
     							<?php } ?>
     						<?php } ?>
-							<?php echo $msg; ?></option>
+							<?php echo $msg.$msge; $msge = "";?></option>
 						<?php } ?>
 					</select> <span class="form-error"> Please choose the order of this
 						menu </span>
@@ -318,7 +316,7 @@ function addedit($type_id, $menu_id, $this_menu, $menus)
 }
 
 function choose_menu_add_edit($type_id, $menus)
-{
+{ // info choose_menu_add_edit 
 	?>
 <div class="grid-container">
 	<div class="grid-x grid-padding-x">
@@ -356,7 +354,7 @@ function choose_menu_add_edit($type_id, $menus)
 }
 
 function add_new_menu_type($mymenu_type, $current_type)
-{
+{ // info add_new_menu_type 
 	?>
 <div class="grid-container">
 	<div class="grid-x grid-padding-x">
@@ -369,7 +367,7 @@ function add_new_menu_type($mymenu_type, $current_type)
 			<!-- Menu Type -->
 			<label for="txt_m_type">Menu Type <input type="text"
 				name="txt_m_type" id="txt_m_type" maxlength="35"
-				value="<?php echo $mymenu_type->m_type; ?>" required /> <span
+				value="<?php echo hdent($mymenu_type->m_type); ?>" required /> <span
 				class="form-error"> You must enter the Menu Type ... </span>
 			</label>
 			<!-- Order -->
@@ -417,7 +415,7 @@ function add_new_menu_type($mymenu_type, $current_type)
 			<div class="text-center">
 					<?php get_submit_button('button_submit_new_type', 'Save'); ?>
 					<?php if ($mymenu_type->type_id != 'new') { ?>
-					<?php get_submit_button('button_submit_new_type', 'Add / Edit Menu')?>
+					<?php get_submit_button('button_submit_menu', 'Add / Edit Menu')?>
 					<input type="submit" name="submit_type_delete" class="button"
 					value="Delete"
 					onclick="return confirm('Are you sure you want to remove <?php echo $mymenu_type->m_type; ?>? All submenus will also be removed');">
@@ -432,3 +430,27 @@ function add_new_menu_type($mymenu_type, $current_type)
 
 <?php } ?>
 
+
+<?php 
+// Books I need to read
+
+// The Marshmallow Test - by - Walter Mischel
+
+// A Curious Mind - by - Brian Glazer
+
+// Mindset - by - Carol Dweck
+
+// Popular: The Power of Likability in a Status-Obsessed World - by - Mitch Prinstein
+
+// Path to Purpose - by - William Damon
+
+
+
+
+
+
+
+
+
+
+?>

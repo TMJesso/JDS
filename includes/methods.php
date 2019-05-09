@@ -13,11 +13,11 @@ function log_data_verbose($input, $desc=""){
     $string_format = var_export($input, true);
     $file = fopen(DS . "mylog.txt", "a");
     fwrite($file, "\n{\n" . var_export(date("h:i:s a m/d/y"), true) . " From: " . $_SERVER["REQUEST_URI"] . "\n");
-    fwrite($file, $string_format);
+    fwrite($file, "Value: " . $string_format);
     if (!empty($desc)) {
         fwrite($file, "\n[ " . $desc . " ]\n }\n\n");
     } else {
-        fwrite($file, "\n}\n\n");
+        fwrite($file, "No Description given\n}\n\n");
     }
     fclose($file);
 }

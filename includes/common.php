@@ -101,7 +101,24 @@ class Common {
 		$sql .= join(", ", $attribute_pairs);
 		$sql .= " WHERE id = ". $base->prevent_injection($this->id);
 		$base->query($sql);
-		return ($base->affected_rows() == 1) ? true : false;
+		//log_data_verbose($base->affected_rows(), "Affected Rows from common.php line 104");
+		return $this->check_affected_rows($base->affected_rows());
+	}
+	
+	private function check_affected_rows($rows) {
+		$msg = array();
+		$msge = "";
+		if ($rows == 0) {
+			$msg["Save"] = "Unable to save record!";
+			$msg["Cause"] = "Nothing was changed!";
+			return $msg;
+		} elseif ($rows == -1) {
+			$msg["Save"] = "There was an error in the Query! Not Saved!";
+			return $msg;
+		} elseif ($rows > 0) {
+			$msge = " was saved with {$rows} record(s) saved!";
+			return $msge;
+		}
 	}
 	
 	public function delete() {

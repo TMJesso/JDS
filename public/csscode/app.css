@@ -55,3 +55,7 @@ italic {
   border-color: #fefefe transparent transparent;
 }
 
+.error-message {
+	font-size: 75%;
+	color: black;
+}

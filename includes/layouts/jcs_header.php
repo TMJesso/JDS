@@ -81,11 +81,11 @@ $menus = Menu::get_all_menus_by_type_id($menu_type->type_id);
                         	<?php foreach ($submenus as $sub) { ?>
                         		<?php if ((int)$sub->t1_security == $session->get_security()) { ?>
                         			<?php $subsubmenus = Tier2::get_all_menu_by_tier1_id($sub->t1_id);?>
-                        			<li><a href="<?php echo $sub->t1_url; ?>"><?php echo $sub->name; ?></a>
+                        			<li><a href="<?php echo $sub->t1_path.$sub->t1_url; ?>"><?php echo $sub->name; ?></a>
                         			<?php if ($subsubmenus) { ?>
 										<ul class="menu">
 	                      				<?php foreach ($subsubmenus as $bus) { ?>
-	                      					<li><a href="<?php echo $bus->t2_url; ?>"><?php echo $bus->t2_name; ?></a></li>
+	                      					<li><a href="<?php echo $bus->t2_path.$bus->t2_url; ?>"><?php echo $bus->t2_name; ?></a></li>
 	                         			<?php } ?>
 	                         			</ul>
 	                         			<?php } ?>

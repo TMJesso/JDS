@@ -16,17 +16,7 @@ if ($_SERVER["SERVER_NAME"] == "localhost") {
 	defined('DB_PORT')		? null : define('DB_PORT', 3306);
 	defined('DB_SOCKET')	? null : define('DB_SOCKET', null);
 }
-get_constants();
 
-function get_constants() {
-	defined('CO_NAME') 		? null : define('CO_NAME', 'Jessop Digital Services');
-	defined('CO_ABBR') 		? null : define('CO_ABBR', 'JDS');
-	defined('CO_HOST') 		? null : define('CO_HOST', 'mail');
-	defined('CO_ADDR') 		? null : define('CO_ADDR', 'jessopdigitalservices');
-	defined('CO_SUFF') 		? null : define('CO_SUFF', 'com');
-	defined('CO_ICO') 		? null : define('CO_ICO', 'JCSlogo1.ico');
-	defined('CO_GIF') 		? null : define('CO_GIF', 'JDSLogo.jpg');
-}
 
 function call_get_dbuser() {
     switch (get_random_value(0, 7)) {

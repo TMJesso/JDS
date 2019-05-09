@@ -125,7 +125,7 @@ if (isset($_GET['lid'])) {
 		</div>
 		<div class="large-6 medium-6">
 			<?php open_form($form_file, '?unpw=' . $un->unpw_id, '&pwun='.$pw->unpw_id); ?>
-			<h5 class="text-center"><?php echo $tracker->descript; ?></h5>
+			<h5 class="text-center"><?php if ($tracker->url != "#") { echo "<a href=\"" . $tracker->url . "\" target=\"_blank\">" . $tracker->descript . "</a>"; } else { echo $tracker->descript; } ?></h5>
 <?php //if (isset($username)) { ?>
 			<fieldset class="callout">
 				<legend>Username</legend>

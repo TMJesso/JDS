@@ -46,15 +46,12 @@ if (isset($_GET['mid']) && ! isset($_POST["submit_submenu"]) && ! isset($_POST["
 	$tier1->t1_visible = $_POST["select_visible"];
 	$tier1->t1_security = $_POST["select_security"];
 	$tier1->t1_clearance = $_POST["select_clearance"];
-	if ($tier1->save()) {
-		$message = $tier1->name . " was successfully saved as a submenu of " . $menu->name;
-		$session->message($message);
-	} else {
-		$errors = array(
-			"There was an error saving " . $tier1->name,
-			$tier1->name . "was NOT saved for {$menu->name}!"
-		);
-		$session->errors($errors);
+	if ($this_results = $tier1->save()) {
+		if (is_array($this_results)) {
+			$session->errors($this_results);
+		} else {
+			$session->message(hdent($tier1->name).$this_results);
+		}
 	}
 	redirect_to('add_menu.php');
 } elseif (isset($_POST["submit_delete"])) {
@@ -105,16 +102,14 @@ if (isset($_GET['mid']) && ! isset($_POST["submit_submenu"]) && ! isset($_POST["
 	$tier2->t2_visible = $base->prevent_injection(hent($_POST["mega_visible"]));
 	$tier2->t2_security = $base->prevent_injection(hent($_POST["mega_security"]));
 	$tier2->t2_clearance = $base->prevent_injection(hent($_POST["mega_clearance"]));
-	if ($tier2->save()) {
-		$message = "";
-		if ($_POST["hidden_mega_t2id"] == "new") {
-			$message = hdent($tier2->t2_name) . " has successfully been added!";
+	if ($this_results = $tier2->save()) {
+		if (is_array($this_results)) {
+			$session->errors($this_results);
 		} else {
-			$message = hdent($tier2->t2_name) . " was successfully updated!";
+			$session->message(hdent($tier2->name).$this_results);
 		}
-		$session->message($message);
-		redirect_to("add_menu.php");
 	}
+	redirect_to("add_menu.php");
 } elseif (isset($_POST["submit_mega_delete"])) {
 	$sub_delete = Tier2::get_menu_by_id($base->prevent_injection(hent($_GET["sid"])));
 	if ($sub_delete->delete()) {

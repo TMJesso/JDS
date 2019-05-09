@@ -294,7 +294,7 @@ class Session {
 			$output .= "Possible errors or notices:";
 			$output .= "<ul>";
 			foreach ($errors as $key => $err) {
-				$output .= "<li>{$err}</li>";
+				$output .= "<li class=\"error-message\">{$key}: {$err}</li>";
 			}
 			$output .= "</ul>";
 			$output .= "</div>";
