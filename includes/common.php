@@ -108,15 +108,24 @@ class Common {
 	private function check_affected_rows($rows) {
 		$msg = array();
 		$msge = "";
-		if ($rows == 0) {
-			$msg["Save"] = "Unable to save record!";
-			$msg["Cause"] = "Nothing was changed!";
+		switch ($rows) {
+			case 0:
+				$msg["Save"] = "Unable to save record!";
+				$msg["Cause"] = "Nothing was changed!";
+				break;
+			case -1:
+				$msg["Save"] = "There was an error in the Query! Not Saved!";
+				break;
+			case 1:
+				$msge = " There was {$rows} record saved!";
+				break;
+			default:
+				$msge = " There were {$rows} records saved!";
+				break;
+		}
+		if (count($msg) > 0) {
 			return $msg;
-		} elseif ($rows == -1) {
-			$msg["Save"] = "There was an error in the Query! Not Saved!";
-			return $msg;
-		} elseif ($rows > 0) {
-			$msge = " was saved with {$rows} record(s) saved!";
+		} else {
 			return $msge;
 		}
 	}

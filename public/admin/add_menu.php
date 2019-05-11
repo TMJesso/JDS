@@ -119,7 +119,7 @@ if (isset($_POST["submit_type"]) || (isset($_GET["tid"]) && ! isset($_POST["subm
 		if (is_array($this_results)) {
 			$session->errors($this_results);
 		} else {
-			$session->message("New Mnue " . $mymenu_type->m_type . " has been " . ($_POST["hidden_type_id"] == "new" ? "added":"updated"));
+			$session->message("New Menu " . $mymenu_type->m_type . " has been " . ($_POST["hidden_type_id"] == "new" ? "added":"updated"));
 		}
 		redirect_to('add_menu.php');
 	}
@@ -251,7 +251,7 @@ function addedit($type_id, $menu_id, $this_menu, $menus)
 						<?php for ($x = 0; $x <= 25; $x++) { ?>
     						<?php $msg = "{$x}. "; $msge = ""; ?>
 						<option value="<?php echo $x; ?>"
-							<?php if ($this_menu->m_order == $x) { ?> selected <?php } ?>>
+							<?php if ($this_menu->m_order == $x) { ?> selected disabled <?php } ?>>
 							<?php foreach ($menus as $men) { ?>
     							<?php if ($men->m_order == $x) { ?>
     								<?php $msge = "used by " . hdent($men->name); ?>
@@ -378,7 +378,7 @@ function add_new_menu_type($mymenu_type, $current_type)
 							
 							<option value="<?php echo $z; ?>"
 						<?php if ($z < count($current_type)) { if ($mymenu_type->type_order == $z) { ?>
-						selected <?php }} ?>><?php echo $z; if ($z < count($current_type)) { if ($current_type[$z]->type_order == $z) { echo " (" . hdent($current_type[$z]->m_type) . ")"; } } ?></option>
+						selected disabled <?php }} ?>><?php echo $z; if ($z < count($current_type)) { if ($current_type[$z]->type_order == $z) { echo " (" . hdent($current_type[$z]->m_type) . ")"; } } ?></option>
 						<?php } ?>
 					</select>
 			</label>

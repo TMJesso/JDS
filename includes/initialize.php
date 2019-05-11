@@ -39,6 +39,7 @@ require_once LIB_PATH . 'tracker_login.php';
 require_once LIB_PATH . 'summary.php';
 require_once LIB_PATH . 'station.php';
 require_once LIB_PATH . 'stops.php';
+require_once LIB_PATH . 'resume.php';
 // require_once LIB_PATH . 'log.php';
 require_once LIB_PATH . 'session.php';
 

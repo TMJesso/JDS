@@ -76,7 +76,7 @@ class Tier1 extends Common
         $sql .= "id int(11) NOT NULL AUTO_INCREMENT, ";
         $sql .= "t1_id varbinary(12) NOT NULL, ";
         $sql .= "menu_id varbinary(12) NOT NULL, ";
-        $sql .= "name varchar(20) NOT NULL, ";
+        $sql .= "name varchar(35) NOT NULL, ";
         $sql .= "t1_url varchar(75) DEFAULT NULL, ";
         $sql .= "t1_order int(2) NOT NULL DEFAULT '99', ";
         $sql .= "t1_visible tinyint(1) NOT NULL DEFAULT '0', ";

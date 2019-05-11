@@ -137,7 +137,7 @@ class Menu extends Common
 		$sql .= "id int(11) NOT NULL AUTO_INCREMENT, ";
 		$sql .= "m_id varbinary(12) NOT NULL, ";
 		$sql .= "type_id varbinary(12) NOT NULL, ";
-		$sql .= "name varchar(20) NOT NULL, ";
+		$sql .= "name varchar(35) NOT NULL, ";
 		$sql .= "m_path varchar(75) NULL DEFAULT NULL";
 		$sql .= "m_url varchar(25)NULL DEFAULT NULL, ";
 		$sql .= "m_order int(2) NOT NULL DEFAULT '0', ";

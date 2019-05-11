@@ -50,7 +50,7 @@ if (isset($_GET['mid']) && ! isset($_POST["submit_submenu"]) && ! isset($_POST["
 		if (is_array($this_results)) {
 			$session->errors($this_results);
 		} else {
-			$session->message(hdent($tier1->name).$this_results);
+			$session->message(hdent($tier1->name) . " has been " . (($tid == 'new') ? "saved!" : "updated!") . $this_results);
 		}
 	}
 	redirect_to('add_menu.php');
@@ -60,9 +60,9 @@ if (isset($_GET['mid']) && ! isset($_POST["submit_submenu"]) && ! isset($_POST["
 
 	$tier1 = Tier1::get_submenu_by_id($t_id);
 	if ($tier1->delete()) {
-		$message = "{$tier1->name} has been successfully removed!";
+		$message = hdent($tier1->name) . " has been successfully removed!";
 		$session->message($message);
-		redirect_to('add_submenu.php?mid=' . $m_id);
+		redirect_to(ADMIN_PATH . 'add_submenu.php?mid=' . $m_id);
 	}
 } elseif (isset($_POST["submit_mega_menu"])) { // get which sub-submenu to edit or save
 
@@ -88,7 +88,8 @@ if (isset($_GET['mid']) && ! isset($_POST["submit_submenu"]) && ! isset($_POST["
 } elseif (isset($_POST["submit_mega_save"])) {
 	// $mid = $base->prevent_injection(hent($_GET["mid"]));
 	// $tid = $base->prevent_injection(hent($_GET["tid"]));
-	if ($_POST["hidden_mega_t2id"] == "new") {
+	$t2id = $_POST["hidden_mega_t2id"];
+	if ($t2id == "new") {
 		$tier2 = new Tier2();
 		$tier2->t1_id = $base->prevent_injection(hent($_GET["tid"]));
 		$tier2->t2_id = get_new_id();
@@ -106,16 +107,16 @@ if (isset($_GET['mid']) && ! isset($_POST["submit_submenu"]) && ! isset($_POST["
 		if (is_array($this_results)) {
 			$session->errors($this_results);
 		} else {
-			$session->message(hdent($tier2->name).$this_results);
+			$session->message(hdent($tier2->name) . " has been " . (($t2id == 'new') ? "saved!" : "updated!").$this_results);
 		}
 	}
 	redirect_to("add_menu.php");
 } elseif (isset($_POST["submit_mega_delete"])) {
 	$sub_delete = Tier2::get_menu_by_id($base->prevent_injection(hent($_GET["sid"])));
 	if ($sub_delete->delete()) {
-		$message = "{$sub_delete->t2_name} has been removed from the menus";
+		$message = hdent($sub_delete->t2_name) . " has been removed from the menus";
 		$session->message($message);
-		redirect_to('add_menu.php');
+		redirect_to(ADMIN_PATH . 'add_menu.php');
 	}
 } else {
 
@@ -190,7 +191,7 @@ if (isset($_GET['mid']) && ! isset($_POST["submit_submenu"]) && ! isset($_POST["
 						<?php for ($x = 0; $x <= 25; $x++) { ?>
 							<?php $msg = "{$x}."; ?>
 						<option value="<?php echo $x; ?>"
-					<?php if ($tier1->t1_order == $x && $sub != "new") { ?> selected
+					<?php if ($tier1->t1_order == $x && $sub != "new") { ?> selected disabled
 					<?php } ?>>
 							<?php foreach ($submenus as $men) { ?>
 								<?php if ($men->t1_order == $x) { ?>
@@ -244,7 +245,7 @@ if (isset($_GET['mid']) && ! isset($_POST["submit_submenu"]) && ! isset($_POST["
 				<input type="submit" name="submit_delete" class="button"
 				value="Delete"
 				onclick="return confirm('Are you sure you want to remove 
-				<?php echo $tier1->name; ?>?');"> <input type="submit"
+				<?php echo hdent($tier1->name); ?>?');"> <input type="submit"
 				name="submit_mega_menu" id="submit_mega_menu"
 				value="Add / Edit Sub-Submenu" class="button">
         		<?php } ?>
@@ -292,7 +293,7 @@ if (isset($_GET['mid']) && ! isset($_POST["submit_submenu"]) && ! isset($_POST["
 				<?php for ($x = 0; $x <= 25; $x++) {?>
 					<?php $msg = "{$x}. "; ?>
 					<option value="<?php echo $x; ?>"
-					<?php if ($tier2->t2_order == $x) { ?> selected <?php } ?>>
+					<?php if ($tier2->t2_order == $x) { ?> selected disabled <?php } ?>>
 					<?php foreach ($current_list as $sub) { ?>
 						<?php if ($sub->t2_order == $x) { ?>
 							<?php $msg .= "used by {$sub->t2_name}"; ?>
@@ -342,8 +343,8 @@ if (isset($_GET['mid']) && ! isset($_POST["submit_submenu"]) && ! isset($_POST["
 			<?php if ($tier2->t2_id != "new"){ ?>
 			<input type="submit" name="submit_mega_delete"
 				id="submit_mega_delete" class="button"
-				value="Delete <?php echo $tier2->t2_name; ?>"
-				onclick="return confirm('Are you sure you want to remove <?php echo $tier2->t2_name?>?');">
+				value="Delete <?php echo $tier2->t2_name; ?>" 
+				onclick="return confirm('Are you sure you want to remove <?php echo hdent($tier2->t2_name); ?>?');">
 			<?php } ?>
 			<a href="add_menu.php" class="button">Cancel</a>
 		</div>

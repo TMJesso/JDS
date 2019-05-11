@@ -9,7 +9,7 @@ class Tier2 extends Common
         'id',
         't2_id',
         't1_id',
-        't2_name',
+        'name',
     	't2_path',
         't2_url',
         't2_order',
@@ -24,7 +24,7 @@ class Tier2 extends Common
 
     public $t1_id;
 
-    public $t2_name;
+    public $name;
     
     public $t2_path;
 
@@ -84,7 +84,7 @@ class Tier2 extends Common
         $sql .= "id int(11) NOT NULL DEFAULT 0, ";
         $sql .= "t2_id varbinary(12) NOT NULL, ";
         $sql .= "t1_id varbinary(12) NOT NULL, ";
-        $sql .= "t2_name varchar(15) NOT NULL, ";
+        $sql .= "name varchar(35) NOT NULL, ";
         $sql .= "t2_url varchar(75) NOT NULL, ";
         $sql .= "t2_order int(2) NOT NULL DEFAULT 0, ";
         $sql .= "t2_visible tinyint(1) NOT NULL DEFAULT 0, ";

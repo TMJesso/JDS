@@ -11,8 +11,11 @@
 *.log
 docs
 sandbox
-vendor/composer
+public/vendor/composer
 composer.*
 PHPMailer
 README-Template.md
 *.zip
+public/media/Element_of_a_Resume_complete_files
+public/media/Element_of_a_Resume.html
+public/media/Element_of_a_Resume_complete.html
